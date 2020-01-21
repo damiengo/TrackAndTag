@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.damiengo.trackandtag.R
+import com.damiengo.trackandtag.database.TrackAndTagDatabase
 import com.damiengo.trackandtag.ui.item.ItemActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        val db = TrackAndTagDatabase(this)
 
         fab.setOnClickListener { view ->
             val intent = Intent(this@MainActivity, ItemActivity::class.java)
