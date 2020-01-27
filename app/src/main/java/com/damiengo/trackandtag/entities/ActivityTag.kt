@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import java.time.LocalDateTime
 
-@Entity(primaryKeys = arrayOf("activityId", "tagId"))
+@Entity(primaryKeys = ["activity_id", "tag_id"])
 data class ActivityTag(
     @ColumnInfo(name = "activity_id") val activityId: Long,
     @ColumnInfo(name = "tag_id") val tagId: Long,
