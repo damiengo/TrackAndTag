@@ -6,6 +6,12 @@
     android:orientation="vertical"
     tools:context=".ui.item.ItemActivity">
 
+    <Button
+        android:text="@string/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/save_button" />
+
     <TextView
         android:text="@string/tags"
         android:layout_width="wrap_content"
@@ -50,10 +56,15 @@
         android:ems="10"
         android:id="@+id/number" />
 
-    <Button
-        android:text="@string/save"
+    <TextView
+        android:text="@string/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <DatePicker
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/save_button" />
+        android:datePickerMode="spinner"/>
 
 </LinearLayout>
