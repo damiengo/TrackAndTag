@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 @Entity
 data class Activity(
-    @PrimaryKey(autoGenerate = true) val activityId: Long,
+    @PrimaryKey(autoGenerate = true) var activityId: Long,
     @ColumnInfo(name = "title") val title: String?,
     @ColumnInfo(name = "description") val description: String?,
     @ColumnInfo(name = "number") val number: Float?,
@@ -22,7 +22,7 @@ data class Activity(
     @Ignore
     constructor(title: String = "",
                 description: String = "",
-                number: Float? = 0,
+                number: Float? = 0f,
                 madeAt: LocalDateTime = LocalDateTime.now(),
-                createdAt: LocalDateTime? = LocalDateTime.now()) : this(0, title, description, number, madeAt, createdAt)
+                createdAt: LocalDateTime? = LocalDateTime.now()) : this(0, title, description, number, madeAt, createdAt, null)
 }
