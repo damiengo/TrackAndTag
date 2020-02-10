@@ -1,5 +1,6 @@
 package com.damiengo.trackandtag.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,15 +11,36 @@ import com.damiengo.trackandtag.database.TrackAndTagDatabase
 import com.damiengo.trackandtag.ui.item.ItemActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+    private val scope = CoroutineScope(Dispatchers.Main)
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
         val db = TrackAndTagDatabase(this)
+
+        scope.launch(Dispatchers.IO) {
+            val activities = db.activityDao().getActivities()
+            nb_activities.text = """${activities.size} activities"""
+
+            val tags = db.activityDao().getTags()
+            nb_tags.text = """${tags.size} tags"""
+
+            val lastActivity = activities[0]
+            last_activity.text = """${lastActivity.title} ${lastActivity.number}"""
+
+            val lastActivity1 = activities[1]
+            last_activity_1.text = """${lastActivity1.title} ${lastActivity1.number}"""
+        }
 
         fab.setOnClickListener { view ->
             val intent = Intent(this@MainActivity, ItemActivity::class.java)

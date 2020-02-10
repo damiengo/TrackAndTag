@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_item.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.*
 
@@ -32,6 +33,7 @@ class ItemActivity : AppCompatActivity() {
         save_button.setOnClickListener {
             scope.launch(Dispatchers.IO) {
                 val tags = mutableListOf<Tag>()
+                // Saving differents tags
                 item_tags.text.toString().split(" ").forEach {
                     val tag: Tag
                     val tagValue = it.toLowerCase(Locale.ENGLISH)
@@ -47,16 +49,18 @@ class ItemActivity : AppCompatActivity() {
                     tags.add(tag)
                 }
 
+                // Activity
                 val activity = Activity(
                     item_title.text.toString(),
                     item_description.text.toString(),
                     item_number.text.toString().toFloat(),
-                    getDateFromDatePicker(item_date)!!
+                    getDateFromDatePicker(item_date)
                 )
 
                 val activityId = db.activityDao().insert(activity)
                 activity.activityId = activityId
 
+                // Tag / Activity
                 tags.forEach {
                     val activityTag = ActivityTag(
                         activity.activityId,
@@ -65,19 +69,22 @@ class ItemActivity : AppCompatActivity() {
                     db.activityDao().insert(activityTag)
                 }
 
-                val toast = Toast.makeText(applicationContext, "Activity saved", Toast.LENGTH_SHORT)
-                toast.show()
+                withContext(Dispatchers.Main) {
+                    val toast =
+                        Toast.makeText(applicationContext, "Activity saved", Toast.LENGTH_SHORT)
+                    toast.show()
+                }
             }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getDateFromDatePicker(datePicker: DatePicker): LocalDateTime? {
+    fun getDateFromDatePicker(datePicker: DatePicker): Long {
         val day = datePicker.dayOfMonth
         val month = datePicker.month
         val year = datePicker.year
         val calendar = Calendar.getInstance()
         calendar[year, month] = day
-        return LocalDateTime.ofInstant(calendar.toInstant(), calendar.timeZone.toZoneId())
+        return calendar.timeInMillis
     }
 }

@@ -10,8 +10,7 @@ import com.damiengo.trackandtag.entities.Activity
 import com.damiengo.trackandtag.entities.ActivityTag
 import com.damiengo.trackandtag.entities.Tag
 
-@Database(entities = [Activity::class, ActivityTag::class, Tag::class], version = 1)
-@TypeConverters(Converters::class)
+@Database(entities = [Activity::class, ActivityTag::class, Tag::class], version = 2)
 abstract class TrackAndTagDatabase : RoomDatabase() {
 
     abstract fun activityDao(): ActivityDao
@@ -26,6 +25,7 @@ abstract class TrackAndTagDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) = Room.databaseBuilder(context,
             TrackAndTagDatabase::class.java, "track-and-tag.db")
+            //.fallbackToDestructiveMigration() // @todo remove when prod
             .build()
     }
 

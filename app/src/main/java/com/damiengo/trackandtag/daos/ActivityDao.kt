@@ -22,6 +22,9 @@ interface ActivityDao {
     @Query("SELECT * FROM activity ORDER BY created_at DESC")
     suspend fun getActivities(): Array<Activity>
 
+    @Query("SELECT * FROM tag ORDER BY created_at DESC")
+    suspend fun getTags(): Array<Tag>
+
     @Query("SELECT * FROM tag WHERE text = :text")
     suspend fun findTagByText(text: String): List<Tag>
 
