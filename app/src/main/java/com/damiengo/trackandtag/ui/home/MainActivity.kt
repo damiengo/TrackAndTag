@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.trackandtag.R
 import com.damiengo.trackandtag.database.TrackAndTagDatabase
 import com.damiengo.trackandtag.ui.item.ItemActivity
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val db = TrackAndTagDatabase(this)
+
+        list_activities.layoutManager = LinearLayoutManager(this)
+        list_activities.setHasFixedSize(true)
 
         scope.launch(Dispatchers.IO) {
             val activities = db.activityDao().getActivities()
