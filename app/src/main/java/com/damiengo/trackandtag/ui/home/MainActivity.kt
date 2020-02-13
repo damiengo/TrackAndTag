@@ -33,17 +33,9 @@ class MainActivity : AppCompatActivity() {
         list_activities.setHasFixedSize(true)
 
         scope.launch(Dispatchers.IO) {
-            val activities = db.activityDao().getActivities()
-            nb_activities.text = """${activities.size} activities"""
-
-            val tags = db.activityDao().getTags()
-            nb_tags.text = """${tags.size} tags"""
-
-            val lastActivity = activities[0]
-            last_activity.text = """${lastActivity.title} ${lastActivity.number}"""
-
-            val lastActivity1 = activities[1]
-            last_activity_1.text = """${lastActivity1.title} ${lastActivity1.number}"""
+            val activities = db.activityDao().getActivitiesWithTags()
+            val adapter = ActivityAdapter(activities)
+            list_activities.adapter = adapter
         }
 
         fab.setOnClickListener { view ->

@@ -3,14 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="4dp"
-    android:background="?attr/colorSecondary"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:id="@+id/activity_title"
+        android:id="@+id/activity_date"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/activity_number"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:layout_toRightOf="@+id/activity_date"
+        android:layout_toEndOf="@+id/activity_date"
+        android:background="#5F00"/>
+
+    <TextView
+        android:id="@+id/activity_title"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/activity_number"
+        android:layout_toEndOf="@+id/activity_number"
+        android:textStyle="bold"
         />
+
+    <TextView
+        android:id="@+id/activity_tags"
+        android:paddingLeft="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/activity_title"
+        android:layout_toEndOf="@+id/activity_title"
+        android:textSize="12sp"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

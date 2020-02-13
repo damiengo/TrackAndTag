@@ -10,12 +10,12 @@ import androidx.room.PrimaryKey
 @Entity
 data class Activity(
     @PrimaryKey(autoGenerate = true) var activityId: Long,
-    @ColumnInfo(name = "title") val title: String?,
-    @ColumnInfo(name = "description") val description: String?,
-    @ColumnInfo(name = "number") val number: Float?,
-    @ColumnInfo(name = "made_at") val madeAt: Long,
-    @ColumnInfo(name = "created_at") val createdAt: Long,
-    @ColumnInfo(name = "updated_at") val updatedAt: Long
+    @ColumnInfo val title: String?,
+    @ColumnInfo val description: String?,
+    @ColumnInfo val number: Float?,
+    @ColumnInfo val madeAt: Long,
+    @ColumnInfo val createdAt: Long,
+    @ColumnInfo val updatedAt: Long
 ) {
     @RequiresApi(Build.VERSION_CODES.O)
     @Ignore

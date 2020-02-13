@@ -5,14 +5,17 @@ import androidx.annotation.RequiresApi
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
+import androidx.room.Index
 import java.time.LocalDateTime
 
-@Entity(primaryKeys = ["activity_id", "tag_id"])
+@Entity(primaryKeys = ["activityId", "tagId"],
+        indices = [Index(value = ["tagId"])]
+)
 data class ActivityTag(
-    @ColumnInfo(name = "activity_id") val activityId: Long,
-    @ColumnInfo(name = "tag_id") val tagId: Long,
-    @ColumnInfo(name = "created_at") val createdAt: Long,
-    @ColumnInfo(name = "updated_at") val updatedAt: Long
+    @ColumnInfo val activityId: Long,
+    @ColumnInfo val tagId: Long,
+    @ColumnInfo val createdAt: Long,
+    @ColumnInfo val updatedAt: Long
 ) {
     @RequiresApi(Build.VERSION_CODES.O)
     @Ignore

@@ -10,9 +10,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class Tag(
     @PrimaryKey(autoGenerate = true) var tagId: Long,
-    @ColumnInfo(name = "text") val title: String?,
-    @ColumnInfo(name = "created_at") val createdAt: Long,
-    @ColumnInfo(name = "updated_at") val updatedAt: Long
+    @ColumnInfo val text: String?,
+    @ColumnInfo val createdAt: Long,
+    @ColumnInfo val updatedAt: Long
 ) {
     @RequiresApi(Build.VERSION_CODES.O)
     @Ignore

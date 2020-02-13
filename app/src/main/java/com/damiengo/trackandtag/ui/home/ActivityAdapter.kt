@@ -5,17 +5,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.damiengo.trackandtag.entities.Activity
+import com.damiengo.trackandtag.entities.ActivityWithTags
 
-class ActivityAdapter : RecyclerView.Adapter<ActivityViewHolder>() {
+class ActivityAdapter(_activities: List<ActivityWithTags>) : RecyclerView.Adapter<ActivityViewHolder>() {
 
     private lateinit var context: Context
-    private lateinit var activities : List<Activity>
+    private var activities : List<ActivityWithTags>
+
+    init {
+        activities = _activities
+    }
 
     // Must be quick, on the main thread
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ActivityViewHolder {
         context = parent.context
-        activities = mutableListOf()
 
         val inflater = LayoutInflater.from(context)
         return ActivityViewHolder(inflater, parent)
@@ -23,7 +27,7 @@ class ActivityAdapter : RecyclerView.Adapter<ActivityViewHolder>() {
 
     // Must be quick, on the main thread
     override fun onBindViewHolder(holder: ActivityViewHolder, position: Int) {
-        val activity: Activity = activities[position]
+        val activity: ActivityWithTags = activities[position]
 
         holder.bind(activity)
     }
@@ -32,6 +36,11 @@ class ActivityAdapter : RecyclerView.Adapter<ActivityViewHolder>() {
 
     override fun getItemId(position: Int): Long {
         return activities[position].hashCode().toLong()
+    }
+
+    fun updateActivities(data: List<ActivityWithTags>) {
+        activities = data
+        notifyDataSetChanged()
     }
 
 }

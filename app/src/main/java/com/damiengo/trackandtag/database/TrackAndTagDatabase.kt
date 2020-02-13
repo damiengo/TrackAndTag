@@ -10,7 +10,7 @@ import com.damiengo.trackandtag.entities.Activity
 import com.damiengo.trackandtag.entities.ActivityTag
 import com.damiengo.trackandtag.entities.Tag
 
-@Database(entities = [Activity::class, ActivityTag::class, Tag::class], version = 2)
+@Database(entities = [Activity::class, ActivityTag::class, Tag::class], version = 3)
 abstract class TrackAndTagDatabase : RoomDatabase() {
 
     abstract fun activityDao(): ActivityDao
