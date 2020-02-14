@@ -19,13 +19,15 @@ class ActivityViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     private var tagsView: TextView = itemView.findViewById(R.id.activity_tags)
 
     @SuppressLint("SetTextI18n")
-    fun bind(activityWTags: ActivityWithTags) {
+    fun bind(activityWTags: ActivityWithTags, clickListener: (ActivityWithTags) -> Unit) {
         val activity = activityWTags.activity
         titleView.text = activity.title
         numberView.text = "%.0f".format(activity.number)
         val sdf = SimpleDateFormat("dd/MM", Locale.ENGLISH)
         dateView.text = sdf.format(activity.madeAt)
         tagsView.text = activityWTags.tags.joinToString(separator = " • ") { "#${it.text}" }
+
+        itemView.setOnClickListener { clickListener(activityWTags)}
     }
 
 }

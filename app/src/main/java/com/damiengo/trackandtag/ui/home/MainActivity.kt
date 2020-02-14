@@ -8,7 +8,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.trackandtag.R
+import com.damiengo.trackandtag.daos.ActivityDao
 import com.damiengo.trackandtag.database.TrackAndTagDatabase
+import com.damiengo.trackandtag.entities.ActivityWithTags
 import com.damiengo.trackandtag.ui.item.ItemActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +22,8 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private val scope = CoroutineScope(Dispatchers.Main)
+    private lateinit var dao : ActivityDao
+    private lateinit var adapter : ActivityAdapter
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,19 +32,32 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val db = TrackAndTagDatabase(this)
+        dao = db.activityDao()
 
         list_activities.layoutManager = LinearLayoutManager(this)
         list_activities.setHasFixedSize(true)
 
-        scope.launch(Dispatchers.IO) {
-            val activities = db.activityDao().getActivitiesWithTags()
-            val adapter = ActivityAdapter(activities)
-            list_activities.adapter = adapter
-        }
+        loadActivities()
 
         fab.setOnClickListener { view ->
             val intent = Intent(this@MainActivity, ItemActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    private fun loadActivities() {
+        scope.launch(Dispatchers.IO) {
+            val activities = dao.getActivitiesWithTags()
+            adapter = ActivityAdapter(activities) { activityWTags: ActivityWithTags ->
+                activityClicked(
+                    activityWTags
+                )
+            }
+            list_activities.adapter = adapter
         }
     }
 
@@ -58,5 +75,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun activityClicked(activityWTags : ActivityWithTags) {
+        val intent = Intent(this@MainActivity, ItemActivity::class.java)
+        intent.putExtra("id", activityWTags.activity.activityId)
+        startActivity(intent)
     }
 }

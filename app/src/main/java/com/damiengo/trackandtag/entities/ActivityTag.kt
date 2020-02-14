@@ -15,7 +15,7 @@ data class ActivityTag(
     @ColumnInfo val activityId: Long,
     @ColumnInfo val tagId: Long,
     @ColumnInfo val createdAt: Long,
-    @ColumnInfo val updatedAt: Long
+    @ColumnInfo var updatedAt: Long
 ) {
     @RequiresApi(Build.VERSION_CODES.O)
     @Ignore
