@@ -8,4 +8,8 @@
     <string name="number">Number</string>
     <string name="date">Date</string>
     <string name="delete">Delete</string>
+    <string name="track_and_tag"><![CDATA[Track & Tag]]></string>
+    <string name="export_data">Exporter les données</string>
+    <string name="drawer_open">Ouvert</string>
+    <string name="drawer_closed">Fermé</string>
 </resources>

@@ -6,6 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.trackandtag.R
 import com.damiengo.trackandtag.daos.ActivityDao
@@ -29,7 +31,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+
+        initActionBar()
 
         val db = TrackAndTagDatabase(this)
         dao = db.activityDao()
@@ -81,5 +84,21 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this@MainActivity, ItemActivity::class.java)
         intent.putExtra("id", activityWTags.activity.activityId)
         startActivity(intent)
+    }
+
+    private fun initActionBar() {
+        setSupportActionBar(toolbar)
+        val actionbar: ActionBar? = supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+        }
+
+        val actionBarDrawerToggle = ActionBarDrawerToggle(
+            this, drawer_layout, toolbar,
+            R.string.drawer_open, R.string.drawer_closed
+        )
+        drawer_layout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
     }
 }
