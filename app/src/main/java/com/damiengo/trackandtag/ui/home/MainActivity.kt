@@ -3,6 +3,7 @@ package com.damiengo.trackandtag.ui.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initActionBar()
+        manageLeftMenu()
 
         val db = TrackAndTagDatabase(this)
         dao = db.activityDao()
@@ -100,5 +102,13 @@ class MainActivity : AppCompatActivity() {
         )
         drawer_layout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
+    }
+
+    private fun manageLeftMenu() {
+        nav_view.setNavigationItemSelectedListener { menuItem ->
+            Log.d("menu", menuItem.toString())
+
+            true
+        }
     }
 }
