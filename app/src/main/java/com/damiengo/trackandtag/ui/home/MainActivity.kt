@@ -4,28 +4,27 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.trackandtag.R
 import com.damiengo.trackandtag.db.ActivityDao
-import com.damiengo.trackandtag.db.TrackAndTagDatabase
 import com.damiengo.trackandtag.entity.ActivityWithTags
 import com.damiengo.trackandtag.ui.item.ItemActivity
-
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     private val scope = CoroutineScope(Dispatchers.Main)
-    private lateinit var dao : ActivityDao
+    @Inject lateinit var dao : ActivityDao
     private lateinit var adapter : ActivityAdapter
 
     @SuppressLint("SetTextI18n")
@@ -36,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         initActionBar()
         manageLeftMenu()
 
-        val db = TrackAndTagDatabase(this)
-        dao = db.activityDao()
+        //val db = TrackAndTagDatabase(this)
+        //dao = db.activityDao()
 
         list_activities.layoutManager = LinearLayoutManager(this)
         list_activities.setHasFixedSize(true)
