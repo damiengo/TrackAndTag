@@ -1,25 +1,28 @@
 package com.damiengo.trackandtag.di
 
 import android.app.Application
+import com.damiengo.trackandtag.TrackAndTagApp
 import com.damiengo.trackandtag.ui.home.MainActivity
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
+        AndroidInjectionModule::class,
+        ActivitiesModule::class,
         RoomModule::class
     ]
 )
 interface AppComponent {
 
-    @Component.Builder
-    interface Builder {
-        @BindsInstance
-        fun application(application: Application): Builder
+    fun inject(app: TrackAndTagApp)
 
-        fun build(): AppComponent
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance application: Application): AppComponent
     }
 
     fun inject(activity: MainActivity)

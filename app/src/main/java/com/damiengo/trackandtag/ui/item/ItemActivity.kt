@@ -8,29 +8,33 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.damiengo.trackandtag.db.ActivityDao
 import com.damiengo.trackandtag.db.TrackAndTagDatabase
 import com.damiengo.trackandtag.entity.Activity
 import com.damiengo.trackandtag.entity.ActivityTag
 import com.damiengo.trackandtag.entity.Tag
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_item.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 
 
 class ItemActivity : AppCompatActivity() {
 
     private val scope = CoroutineScope(Dispatchers.Main)
+    @Inject
+    lateinit var dao : ActivityDao
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item)
-
-        val db = TrackAndTagDatabase(this)
-        val dao = db.activityDao()
 
         val editActivityId = intent.getLongExtra("id", -1)
 

@@ -14,6 +14,7 @@ import com.damiengo.trackandtag.R
 import com.damiengo.trackandtag.db.ActivityDao
 import com.damiengo.trackandtag.entity.ActivityWithTags
 import com.damiengo.trackandtag.ui.item.ItemActivity
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.coroutines.CoroutineScope
@@ -29,21 +30,20 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         initActionBar()
         manageLeftMenu()
 
-        //val db = TrackAndTagDatabase(this)
-        //dao = db.activityDao()
-
         list_activities.layoutManager = LinearLayoutManager(this)
         list_activities.setHasFixedSize(true)
 
         loadActivities()
 
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             val intent = Intent(this@MainActivity, ItemActivity::class.java)
             startActivity(intent)
         }
