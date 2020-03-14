@@ -1,4 +1,4 @@
-package com.damiengo.trackandtag.entities
+package com.damiengo.trackandtag.entity
 
 import android.os.Build
 import androidx.annotation.RequiresApi

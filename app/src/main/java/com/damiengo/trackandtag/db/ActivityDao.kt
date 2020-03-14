@@ -1,10 +1,10 @@
-package com.damiengo.trackandtag.daos
+package com.damiengo.trackandtag.db
 
 import androidx.room.*
-import com.damiengo.trackandtag.entities.Activity
-import com.damiengo.trackandtag.entities.ActivityTag
-import com.damiengo.trackandtag.entities.ActivityWithTags
-import com.damiengo.trackandtag.entities.Tag
+import com.damiengo.trackandtag.entity.Activity
+import com.damiengo.trackandtag.entity.ActivityTag
+import com.damiengo.trackandtag.entity.ActivityWithTags
+import com.damiengo.trackandtag.entity.Tag
 
 
 @Dao

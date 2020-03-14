@@ -1,14 +1,12 @@
-package com.damiengo.trackandtag.database
+package com.damiengo.trackandtag.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.damiengo.trackandtag.daos.ActivityDao
-import com.damiengo.trackandtag.entities.Activity
-import com.damiengo.trackandtag.entities.ActivityTag
-import com.damiengo.trackandtag.entities.Tag
+import com.damiengo.trackandtag.entity.Activity
+import com.damiengo.trackandtag.entity.ActivityTag
+import com.damiengo.trackandtag.entity.Tag
 
 @Database(entities = [Activity::class, ActivityTag::class, Tag::class], version = 3)
 abstract class TrackAndTagDatabase : RoomDatabase() {

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.damiengo.trackandtag.R
-import com.damiengo.trackandtag.entities.ActivityWithTags
+import com.damiengo.trackandtag.entity.ActivityWithTags
 import java.text.SimpleDateFormat
 import java.util.*
 

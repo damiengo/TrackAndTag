@@ -1,4 +1,4 @@
-package com.damiengo.trackandtag.entities
+package com.damiengo.trackandtag.entity
 
 import androidx.room.Embedded
 import androidx.room.Junction

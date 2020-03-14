@@ -1,4 +1,4 @@
-package com.damiengo.trackandtag.entities
+package com.damiengo.trackandtag.entity
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -6,7 +6,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import java.time.LocalDateTime
 
 @Entity(primaryKeys = ["activityId", "tagId"],
         indices = [Index(value = ["tagId"])]

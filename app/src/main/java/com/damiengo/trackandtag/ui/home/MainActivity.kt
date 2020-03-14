@@ -11,9 +11,9 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.trackandtag.R
-import com.damiengo.trackandtag.daos.ActivityDao
-import com.damiengo.trackandtag.database.TrackAndTagDatabase
-import com.damiengo.trackandtag.entities.ActivityWithTags
+import com.damiengo.trackandtag.db.ActivityDao
+import com.damiengo.trackandtag.db.TrackAndTagDatabase
+import com.damiengo.trackandtag.entity.ActivityWithTags
 import com.damiengo.trackandtag.ui.item.ItemActivity
 
 import kotlinx.android.synthetic.main.activity_main.*

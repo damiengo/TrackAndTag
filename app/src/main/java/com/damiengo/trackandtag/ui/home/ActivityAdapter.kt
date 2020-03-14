@@ -4,8 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.damiengo.trackandtag.entities.Activity
-import com.damiengo.trackandtag.entities.ActivityWithTags
+import com.damiengo.trackandtag.entity.ActivityWithTags
 
 class ActivityAdapter(private var activities: List<ActivityWithTags>,
                       private val clickListener: (ActivityWithTags) -> Unit) : RecyclerView.Adapter<ActivityViewHolder>() {

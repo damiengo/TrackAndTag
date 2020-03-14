@@ -8,10 +8,10 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.damiengo.trackandtag.database.TrackAndTagDatabase
-import com.damiengo.trackandtag.entities.Activity
-import com.damiengo.trackandtag.entities.ActivityTag
-import com.damiengo.trackandtag.entities.Tag
+import com.damiengo.trackandtag.db.TrackAndTagDatabase
+import com.damiengo.trackandtag.entity.Activity
+import com.damiengo.trackandtag.entity.ActivityTag
+import com.damiengo.trackandtag.entity.Tag
 import kotlinx.android.synthetic.main.activity_item.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
