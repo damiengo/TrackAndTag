@@ -3,14 +3,16 @@ package com.damiengo.trackandtag.ui.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.trackandtag.R
+import com.damiengo.trackandtag.backup.Export
 import com.damiengo.trackandtag.db.ActivityDao
 import com.damiengo.trackandtag.entity.ActivityWithTags
 import com.damiengo.trackandtag.ui.item.ItemActivity
@@ -20,12 +22,14 @@ import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     private val scope = CoroutineScope(Dispatchers.Main)
     @Inject lateinit var dao : ActivityDao
+    @Inject lateinit var export : Export
     private lateinit var adapter : ActivityAdapter
 
     @SuppressLint("SetTextI18n")
@@ -105,7 +109,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun manageLeftMenu() {
         nav_view.setNavigationItemSelectedListener { menuItem ->
-            Log.d("menu", menuItem.toString())
+            if(menuItem.itemId == R.id.nav_export_data) {
+                val sdCard: File = Environment.getExternalStorageDirectory()
+                export.allIn(sdCard.absolutePath.toString()+"/trackandtag/")
+
+                val toast =
+                    Toast.makeText(applicationContext, "Export done", Toast.LENGTH_SHORT)
+                toast.show()
+            }
 
             true
         }

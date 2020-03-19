@@ -2,9 +2,9 @@ package com.damiengo.trackandtag.di
 
 import android.app.Application
 import androidx.room.Room
-import com.damiengo.trackandtag.TrackAndTagApp
 import com.damiengo.trackandtag.db.ActivityDao
 import com.damiengo.trackandtag.db.TrackAndTagDatabase
+import com.damiengo.trackandtag.repository.ActivityRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,6 +25,12 @@ class RoomModule {
     @Provides
     fun provideActivityDao(db: TrackAndTagDatabase): ActivityDao {
         return db.activityDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideActivityRepository(): ActivityRepository {
+        return ActivityRepository()
     }
 
 }
