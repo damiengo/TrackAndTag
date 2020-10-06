@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -6,6 +6,7 @@ import {
   View,
   Text,
   StatusBar,
+  FlatList
 } from 'react-native';
 
 import {
@@ -18,52 +19,42 @@ import {
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import EditActivityScreen from './EditActivity';
+import AsyncStorage from '@react-native-community/async-storage';
+import ListItem from '../components/ListItem'
 
 export default function ActivitiesScreen({ navigation, route }) {
+    const [activities, setActivities] = useState([])
+
+    useEffect(() => {
+      getActivities()
+    });
+
+    const getActivities = async () => {
+      try {
+        //AsyncStorage.removeItem('@activities')
+        await AsyncStorage.getItem('@activities').then(data => 
+          setActivities(data != null ? JSON.parse(data).reverse() : [])
+        )
+      } catch(e) {
+        console.error(e);
+      }
+    }
+
+    const renderItem = ({ item }) => {
+      return <ListItem item={item} navigation={navigation} />
+    }
+
     return (
         <>
             <StatusBar barStyle="dark-content" />
             <SafeAreaView>
-                <ScrollView
-                contentInsetAdjustmentBehavior="automatic"
-                style={styles.scrollView}>
-                <Header />
-                {global.HermesInternal == null ? null : (
-                    <View style={styles.engine}>
-                    <Text style={styles.footer}>Engine: Hermes</Text>
-                    </View>
-                )}
-                <View style={styles.body}>
-                    <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Step One</Text>
-                    <Text style={styles.sectionDescription}>
-                        Edit <Text style={styles.highlight}>App.js</Text> to change this
-                        screen and then come back to see your edit.
-                    </Text>
-                    </View>
-                    <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>See Your Changes</Text>
-                    <Text style={styles.sectionDescription}>
-                        <ReloadInstructions />
-                    </Text>
-                    </View>
-                    <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Debug</Text>
-                    <Text style={styles.sectionDescription}>
-                        <DebugInstructions />
-                    </Text>
-                    </View>
-                    <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Learn More</Text>
-                    <Text style={styles.sectionDescription}>
-                        Read the docs to discover what to do next:
-                    </Text>
-                    </View>
-                    <LearnMoreLinks />
-                </View>
-                </ScrollView>
+              <FlatList
+                data={activities}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => index.toString()}
+              />
             </SafeAreaView>
-            <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => navigation.navigate('EditActivityScreen')}>
+            <ActionButton buttonColor="#55FF00" buttonTextStyle={{ color: '#444' }} onPress={() => navigation.navigate('Edit')}>
             </ActionButton>
         </>
     );
