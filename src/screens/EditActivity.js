@@ -16,7 +16,7 @@ export default function EditActivityScreen({ navigation, route, item }) {
         if( ! route.params) {
             return
         }
-        const { item } = route.params
+        const { item, index } = route.params
         if(item) {
             setDate(item.date)
             setTags(genTags(item.tags))
@@ -43,7 +43,6 @@ export default function EditActivityScreen({ navigation, route, item }) {
     }
 
     const onPressSave = async (event) => {
-        console.log('save')
         try {
             const activity = {
                 tags: tags.split(' '), 

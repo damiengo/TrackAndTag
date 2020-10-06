@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import Moment from 'moment';
 
-export default function ListItem({ navigation, item }) {
+export default function ListItem({ navigation, item, index }) {
 
     const genTags = (tags) => {
         return Object.values(tags).map((tag) => {
@@ -15,7 +15,7 @@ export default function ListItem({ navigation, item }) {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Edit', {item: item})}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Edit', {item: item, index: index})}>
           <View
             style={{
               flexDirection: 'row',

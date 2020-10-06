@@ -40,8 +40,8 @@ export default function ActivitiesScreen({ navigation, route }) {
       }
     }
 
-    const renderItem = ({ item }) => {
-      return <ListItem item={item} navigation={navigation} />
+    const renderItem = (item, index) => {
+      return <ListItem item={item} index={index} navigation={navigation} />
     }
 
     return (
@@ -50,7 +50,7 @@ export default function ActivitiesScreen({ navigation, route }) {
             <SafeAreaView>
               <FlatList
                 data={activities}
-                renderItem={renderItem}
+                renderItem={({item, index}) => renderItem(item, index)}
                 keyExtractor={(item, index) => index.toString()}
               />
             </SafeAreaView>
