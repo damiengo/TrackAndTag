@@ -17,8 +17,10 @@
     "@react-navigation/stack": "^5.2.18",
     "moment": "^2.27.0",
     "react": "16.11.0",
+    "react-dom": "^16.14.0",
     "react-native": "0.62.2",
     "react-native-action-button": "^2.8.5",
+    "react-native-animation-library": "0.0.8",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-reanimated": "^1.8.0",
     "react-native-safe-area-context": "^0.7.3",
@@ -29,13 +31,22 @@
     "@babel/core": "^7.6.2",
     "@babel/runtime": "^7.6.2",
     "@react-native-community/eslint-config": "^0.0.5",
+    "@testing-library/jest-native": "^3.4.3",
+    "@testing-library/react": "^11.1.0",
     "babel-jest": "^24.9.0",
     "eslint": "^6.5.1",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.58.0",
     "react-test-renderer": "16.11.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js"
+    ],
+    "moduleNameMapper": {
+      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
+    }
   }
 }
