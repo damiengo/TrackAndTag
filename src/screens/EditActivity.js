@@ -4,33 +4,24 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import Moment from 'moment'
 import AsyncStorage from '@react-native-community/async-storage';
 
-export default function EditActivityScreen({ navigation, route, item }) {
-    const [date, setDate] = useState(new Date());
-    const [tags, setTags] = useState("");
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [number, setNumber] = useState("0");
-    const [showDatePicker, setShowDatePicker] = useState(false);
-
-    useEffect(() => {
-        if( ! route.params) {
-            return
-        }
-        const { item, index } = route.params
-        if(item) {
-            setDate(item.date)
-            setTags(genTags(item.tags))
-            setTitle(item.title)
-            setDescription(item.description)
-            setNumber(item.number)
-        }
-    });
+export default function EditActivityScreen({ navigation, route }) {
 
     const genTags = (tags) => {
         return Object.values(tags).map((tag) => {
             return tag
         }).join(' ')
     }
+
+    const { item } = route.params ?? { item: { date: new Date(), tags: '', title: '', description: '', number: 0, createdAt: new Date(), updatedAt: new Date() } }
+
+    const [date, setDate]                     = useState(item.date);
+    const [tags, setTags]                     = useState(genTags(item.tags));
+    const [title, setTitle]                   = useState(item.title);
+    const [description, setDescription]       = useState(item.description);
+    const [number, setNumber]                 = useState(item.number);
+    const [createdAt, setCreatedAt]           = useState(item.createdAt);
+    const [updatedAt, setUpdatedAt]           = useState(item.updatedAt);
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     const formatDate = (date) => {
         Moment.locale('fr')
@@ -49,12 +40,15 @@ export default function EditActivityScreen({ navigation, route, item }) {
                 title: title, 
                 description: description, 
                 number: number, 
-                date: date
+                date: date, 
+                createdAt: createdAt, 
+                updatedAt: updatedAt
             }
             await AsyncStorage.getItem('@activities')
             .then((activities) => {
-                const a = activities ? JSON.parse(activities) : []
-                a.push(activity)
+                var a = activities ? JSON.parse(activities) : {}
+                const key = activity.createdAt.getTime()
+                a[key] = activity
                 AsyncStorage.setItem('@activities', JSON.stringify(a))
                 navigation.goBack()
             })

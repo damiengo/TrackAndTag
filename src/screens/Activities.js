@@ -32,16 +32,22 @@ export default function ActivitiesScreen({ navigation, route }) {
     const getActivities = async () => {
       try {
         //AsyncStorage.removeItem('@activities')
-        await AsyncStorage.getItem('@activities').then(data => 
-          setActivities(data != null ? JSON.parse(data).reverse() : [])
-        )
+        await AsyncStorage.getItem('@activities').then(data => {
+          const json = JSON.parse(data) || []
+          var items = []
+          Object.keys(json).forEach(function(key) {
+            items.push(json[key])
+          })
+          items = items.reverse()
+          setActivities(items)
+        })
       } catch(e) {
         console.error(e);
       }
     }
 
-    const renderItem = (item, index) => {
-      return <ListItem item={item} index={index} navigation={navigation} />
+    const renderItem = (item) => {
+      return <ListItem item={item} navigation={navigation} />
     }
 
     return (
@@ -50,7 +56,7 @@ export default function ActivitiesScreen({ navigation, route }) {
             <SafeAreaView>
               <FlatList
                 data={activities}
-                renderItem={({item, index}) => renderItem(item, index)}
+                renderItem={({item}) => renderItem(item)}
                 keyExtractor={(item, index) => index.toString()}
               />
             </SafeAreaView>
