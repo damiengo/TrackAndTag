@@ -25,14 +25,12 @@ import ListItem from '../components/ListItem'
 export default function ActivitiesScreen({ navigation, route }) {
     const [activities, setActivities] = useState([])
 
-    useEffect(() => {
-      getActivities()
-    });
+    useEffect(() => { getActivities() }, []);
 
-    const getActivities = async () => {
+    const getActivities = () => {
       try {
         //AsyncStorage.removeItem('@activities')
-        await AsyncStorage.getItem('@activities').then(data => {
+        AsyncStorage.getItem('@activities').then(data => {
           const json = JSON.parse(data) || []
           var items = []
           Object.keys(json).forEach(function(key) {
