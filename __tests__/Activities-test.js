@@ -3,9 +3,11 @@ import React from 'react';
 import ActivitiesScreen from '../src/screens/Activities';
 
 import ActionButton from 'react-native-action-button';
+import ListItem from '../src/components/ListItem'
 
+import { create, act } from 'react-test-renderer';
 import { configure, shallow } from 'enzyme';
-import mockAsyncStorage from '@react-native-community/async-storage/jest/async-storage-mock';
+import AsyncStorage from '@react-native-community/async-storage';
 import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
@@ -21,24 +23,26 @@ it('add an item', () => {
   expect(navigation.navigate.mock.calls.length).toEqual(1);
 });
 
-it('list existing items', () => {
+it('list existing items', async () => {
     const activity = {
         tags: 'tag1 tag2'.split(' '), 
         title: 'The title', 
         description: 'A short description', 
         number: 18, 
-        date: new Date(), 
-        createdAt: new Date(), 
-        updatedAt: new Date()
+        date: (new Date()).getTime(), 
+        createdAt: (new Date()).getTime(), 
+        updatedAt: (new Date()).getTime()
     }
     var a = {}
-    const key = activity.createdAt.getTime()
+    const key = activity.createdAt
     a[key] = activity
-    mockAsyncStorage.setItem('@activities', JSON.stringify(a))
-    const wrapper = shallow(<ActivitiesScreen />)
-    const flData = wrapper
-             .find('FlatList')
-             .props()
-             .data
-    //expect(flData).toHaveLength(1)
+    await AsyncStorage.setItem('@activities', JSON.stringify(a))
+
+    let component; 
+    await act(async() => {
+      component = create(<ActivitiesScreen />)
+    });
+
+    let listItem = component.root.findByType(ListItem)
+    expect(listItem.props.item).toEqual(activity)
 })

@@ -40,14 +40,14 @@ export default function EditActivityScreen({ navigation, route }) {
                 title: title, 
                 description: description, 
                 number: number, 
-                date: date, 
-                createdAt: createdAt, 
-                updatedAt: updatedAt
+                date: date.getTime(), 
+                createdAt: createdAt.getTime(), 
+                updatedAt: updatedAt.getTime()
             }
             await AsyncStorage.getItem('@activities')
             .then((activities) => {
                 var a = activities ? JSON.parse(activities) : {}
-                const key = activity.createdAt.getTime()
+                const key = activity.createdAt
                 a[key] = activity
                 AsyncStorage.setItem('@activities', JSON.stringify(a))
                 navigation.goBack()
