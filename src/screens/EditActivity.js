@@ -12,7 +12,18 @@ export default function EditActivityScreen({ navigation, route }) {
         }).join(' ')
     }
 
-    const { item } = route.params ?? { item: { date: new Date(), tags: '', title: '', description: '', number: 0, createdAt: new Date(), updatedAt: new Date() } }
+    const { item } = route.params ?? 
+                     { 
+                         item: { 
+                             date: (new Date()).getTime(), 
+                             tags: '', 
+                             title: '', 
+                             description: '', 
+                             number: 0, 
+                             createdAt: (new Date()).getTime(), 
+                             updatedAt: (new Date()).getTime() 
+                         } 
+                     }
 
     const [date, setDate]                     = useState(item.date);
     const [tags, setTags]                     = useState(genTags(item.tags));
@@ -40,16 +51,16 @@ export default function EditActivityScreen({ navigation, route }) {
                 title: title, 
                 description: description, 
                 number: number, 
-                date: date.getTime(), 
-                createdAt: createdAt.getTime(), 
-                updatedAt: updatedAt.getTime()
+                date: date, 
+                createdAt: createdAt, 
+                updatedAt: updatedAt
             }
             await AsyncStorage.getItem('@activities')
-            .then((activities) => {
+            .then(async (activities) => {
                 var a = activities ? JSON.parse(activities) : {}
                 const key = activity.createdAt
                 a[key] = activity
-                AsyncStorage.setItem('@activities', JSON.stringify(a))
+                await AsyncStorage.setItem('@activities', JSON.stringify(a))
                 navigation.goBack()
             })
         } catch (e) {
