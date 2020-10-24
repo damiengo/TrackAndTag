@@ -2,7 +2,7 @@ import 'react-native';
 import React from 'react';
 import EditActivityScreen from '../src/screens/EditActivity';
 
-import { Button } from 'react-native'
+import { Button, TextInput } from 'react-native'
 
 import { create, act } from 'react-test-renderer';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -19,9 +19,23 @@ it('add an item', async () => {
         goBack: jest.fn()
     }
     const wrapper = shallow(<EditActivityScreen route={route} navigation={navigation} />)
+    wrapper.find(TextInput).at(0).simulate('changeText', 'tag7 tag8')
+    wrapper.find(TextInput).at(1).simulate('changeText', 'Title 1')
+    wrapper.find(TextInput).at(2).simulate('changeText', 'Description 2')
+    wrapper.find(TextInput).at(3).simulate('changeText', 88)
     wrapper.find(Button).simulate('press')
     await tick()
-    expect(navigation.goBack.mock.calls.length).toEqual(1);
+    expect(navigation.goBack.mock.calls.length).toEqual(1)
+    await AsyncStorage.getItem('@activities')
+                      .then(async (data) => {
+                          const activities = JSON.parse(data)
+                          const key = Object.getOwnPropertyNames(activities)
+                          const activity = activities[key]
+                          expect(activity.tags).toEqual(['tag7', 'tag8'])
+                          expect(activity.title).toEqual('Title 1')
+                          expect(activity.description).toEqual('Description 2')
+                          expect(activity.number).toEqual(88)
+                      })
     expect(AsyncStorage.getItem('@activities')).toBeDefined
 });
 

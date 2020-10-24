@@ -36,11 +36,11 @@ export default function EditActivityScreen({ navigation, route }) {
 
     const formatDate = (date) => {
         Moment.locale('fr')
-        return Moment(date).format('DD/MM/yyyy')
+        return Moment(new Date(date)).format('DD/MM/yyyy')
     }
 
     const onDateTimePickerChange = (event, value) => {
-        setDate(value || new Date())
+        setDate(value || (new Date()).getTime())
         setShowDatePicker(false)
     }
 
