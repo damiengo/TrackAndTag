@@ -17,6 +17,7 @@ it('add an item', async () => {
     AsyncStorage.removeItem('@activities')
     const route = {}
     const navigation = {
+        setOptions: jest.fn(),
         goBack: jest.fn()
     }
     const wrapper = shallow(<EditActivityScreen route={route} navigation={navigation} />)
@@ -26,7 +27,6 @@ it('add an item', async () => {
     wrapper.find(TextInput).at(3).simulate('changeText', 88)
     wrapper.find(Button).simulate('press')
     await tick()
-    expect(navigation.goBack.mock.calls.length).toEqual(1)
     await AsyncStorage.getItem('@activities')
                       .then(async (data) => {
                           const activities = JSON.parse(data)
@@ -37,6 +37,7 @@ it('add an item', async () => {
                           expect(activity.description).toEqual('Description 2')
                           expect(activity.number).toEqual(88)
                       })
+    expect(navigation.goBack.mock.calls.length).toEqual(1)
     expect(AsyncStorage.getItem('@activities')).toBeDefined
 });
 
@@ -56,6 +57,7 @@ it('edit an item', async () => {
       }
     }
     const navigation = {
+        setOptions: jest.fn(),
         goBack: jest.fn()
     }
     const wrapper = shallow(<EditActivityScreen route={route} navigation={navigation} />)

@@ -25,6 +25,10 @@ export default function EditActivityScreen({ navigation, route }) {
                          } 
                      }
 
+    if( ! route.params ) {
+        navigation.setOptions({ title: 'New activity' })
+    }
+
     const [date, setDate]                     = useState(item.date);
     const [tags, setTags]                     = useState(genTags(item.tags));
     const [title, setTitle]                   = useState(item.title);
