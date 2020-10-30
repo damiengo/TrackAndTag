@@ -2,6 +2,6 @@ language: node_js
 cache:
   yarn: true
 node_js:
-  - '8.4'
+  - '12.18'
 script:
   - npm run test-travis
