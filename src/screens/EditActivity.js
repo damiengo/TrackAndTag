@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TextInput, Button } from 'react-native'
+import { TextInput, Button, Alert } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import Moment from 'moment'
 import AsyncStorage from '@react-native-community/async-storage';
@@ -25,10 +25,6 @@ export default function EditActivityScreen({ navigation, route }) {
                          } 
                      }
 
-    if( ! route.params ) {
-        navigation.setOptions({ title: 'New activity' })
-    }
-
     const [date, setDate]                     = useState(item.date);
     const [tags, setTags]                     = useState(genTags(item.tags));
     const [title, setTitle]                   = useState(item.title);
@@ -37,6 +33,11 @@ export default function EditActivityScreen({ navigation, route }) {
     const [createdAt, setCreatedAt]           = useState(item.createdAt);
     const [updatedAt, setUpdatedAt]           = useState(item.updatedAt);
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [isNew, setIsNew]                   = useState((route.params)? false : true);
+
+    if( isNew ) {
+        navigation.setOptions({ title: 'New activity' })
+    }
 
     const formatDate = (date) => {
         Moment.locale('fr')
@@ -70,6 +71,24 @@ export default function EditActivityScreen({ navigation, route }) {
         } catch (e) {
             console.error(e);
         }
+    }
+
+    const onPressDelete = async (event) => {
+        Alert.alert(
+            "Delete activity",
+            "Do you really want to delete "+title+" ?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "OK", 
+                    onPress: () => console.log("OK Pressed") 
+                }
+            ],
+            { cancelable: false }
+        )
     }
 
     return (
@@ -122,6 +141,12 @@ export default function EditActivityScreen({ navigation, route }) {
                 color="#841584"
                 accessibilityLabel="Save activity"
                 />
+            {!isNew &&<Button
+                onPress={onPressDelete}
+                title="Delete"
+                color="#d35400"
+                accessibilityLabel="Delete activity"
+                />}
         </>
     );
 };

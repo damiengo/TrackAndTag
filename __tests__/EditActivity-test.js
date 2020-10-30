@@ -25,7 +25,7 @@ it('add an item', async () => {
     wrapper.find(TextInput).at(1).simulate('changeText', 'Title 1')
     wrapper.find(TextInput).at(2).simulate('changeText', 'Description 2')
     wrapper.find(TextInput).at(3).simulate('changeText', 88)
-    wrapper.find(Button).simulate('press')
+    wrapper.find(Button).at(0).simulate('press')
     await tick()
     await AsyncStorage.getItem('@activities')
                       .then(async (data) => {
@@ -63,7 +63,7 @@ it('edit an item', async () => {
     const wrapper = shallow(<EditActivityScreen route={route} navigation={navigation} />)
     wrapper.find(TextInput).at(2).simulate('changeText', 'Description edited 8')
     wrapper.find(TextInput).at(3).simulate('changeText', 9)
-    wrapper.find(Button).simulate('press')
+    wrapper.find(Button).at(0).simulate('press')
     await tick()
     expect(navigation.goBack.mock.calls.length).toEqual(1)
     await AsyncStorage.getItem('@activities')
