@@ -94,7 +94,7 @@ export default function EditActivityScreen({ navigation, route }) {
             placeholder='Number'
             keyboardType='numeric'
             onChangeText={text => setNumber(text)}
-            defaultValue={number}
+            defaultValue={String(number)}
            />
            <TextInput
             style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}

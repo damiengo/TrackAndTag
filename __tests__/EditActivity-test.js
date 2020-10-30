@@ -14,6 +14,7 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 it('add an item', async () => {
+    AsyncStorage.removeItem('@activities')
     const route = {}
     const navigation = {
         goBack: jest.fn()
@@ -35,6 +36,43 @@ it('add an item', async () => {
                           expect(activity.title).toEqual('Title 1')
                           expect(activity.description).toEqual('Description 2')
                           expect(activity.number).toEqual(88)
+                      })
+    expect(AsyncStorage.getItem('@activities')).toBeDefined
+});
+
+it('edit an item', async () => {
+    AsyncStorage.removeItem('@activities')
+    const route = {
+      params: {
+        item: {
+          date: (new Date()).getTime(), 
+          tags: ['tag1', 'tag2'], 
+          title: 'Title item to edit', 
+          description: 'Description to edit', 
+          number: 5, 
+          createdAt: (new Date()).getTime(), 
+          updatedAt: (new Date()).getTime() 
+        }
+      }
+    }
+    const navigation = {
+        goBack: jest.fn()
+    }
+    const wrapper = shallow(<EditActivityScreen route={route} navigation={navigation} />)
+    wrapper.find(TextInput).at(2).simulate('changeText', 'Description edited 8')
+    wrapper.find(TextInput).at(3).simulate('changeText', 9)
+    wrapper.find(Button).simulate('press')
+    await tick()
+    expect(navigation.goBack.mock.calls.length).toEqual(1)
+    await AsyncStorage.getItem('@activities')
+                      .then(async (data) => {
+                          const activities = JSON.parse(data)
+                          const key = Object.getOwnPropertyNames(activities)
+                          const activity = activities[key]
+                          expect(activity.tags).toEqual(['tag1', 'tag2'])
+                          expect(activity.title).toEqual('Title item to edit')
+                          expect(activity.description).toEqual('Description edited 8')
+                          expect(activity.number).toEqual(9)
                       })
     expect(AsyncStorage.getItem('@activities')).toBeDefined
 });
