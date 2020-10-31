@@ -1,9 +1,9 @@
 import 'react-native';
 import React from 'react';
-import ActivitiesScreen from '../src/screens/Activities';
+import ActivitiesScreen from '../../src/screens/Activities';
 
 import ActionButton from 'react-native-action-button';
-import ListItem from '../src/components/ListItem'
+import ListItem from '../../src/components/ListItem'
 
 import { create, act } from 'react-test-renderer';
 import { configure, shallow } from 'enzyme';

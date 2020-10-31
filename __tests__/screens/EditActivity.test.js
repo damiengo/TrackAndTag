@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import EditActivityScreen from '../src/screens/EditActivity';
+import EditActivityScreen from '../../src/screens/EditActivity';
 
 import { Button, TextInput } from 'react-native'
 
