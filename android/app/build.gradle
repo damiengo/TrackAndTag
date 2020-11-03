@@ -113,10 +113,6 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 
 /**
  * Whether to enable the Hermes VM.
- *
- * This should be set on project.ext.react and mirrored here.  If it is not set
- * on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
- * and the benefits of using Hermes will therefore be sharply reduced.
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
@@ -134,6 +130,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        testBuildType System.getProperty('testBuildType', 'debug')
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     splits {
         abi {
@@ -160,7 +158,9 @@ android {
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            // proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            // Detox-specific additions to pro-guard
+            proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
         }
     }
 
@@ -213,6 +213,12 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    androidTestImplementation('com.wix:detox:+') { transitive = true }
+    androidTestImplementation 'junit:junit:4.12'
+    implementation "androidx.annotation:annotation:1.1.0"
+
+    implementation project(':react-native-localize')
 }
 
 // Run this once to be able to run the application with BUCK

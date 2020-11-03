@@ -13,6 +13,8 @@ import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 
+jest.mock('@react-navigation/native');
+
 it('add an item', async () => {
     AsyncStorage.removeItem('@activities')
     const route = {}

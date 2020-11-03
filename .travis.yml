@@ -4,4 +4,4 @@ cache:
 node_js:
   - '12.18'
 script:
-  - npm run test-travis
+  - npm run test:travis

@@ -20,12 +20,16 @@ import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import EditActivityScreen from './EditActivity';
 import AsyncStorage from '@react-native-community/async-storage';
-import ListItem from '../components/ListItem'
+import ListItem from '../components/ListItem';
+import { useIsFocused } from "@react-navigation/native";
 
 export default function ActivitiesScreen({ navigation, route }) {
-    const [activities, setActivities] = useState([])
+    const [activities, setActivities] = useState([]);
+    const isFocused = useIsFocused();
 
-    useEffect(() => { getActivities() }, []);
+    useEffect(() => {
+      getActivities()
+    }, [isFocused]);
 
     const getActivities = () => {
       try {
@@ -58,7 +62,7 @@ export default function ActivitiesScreen({ navigation, route }) {
                 keyExtractor={(item, index) => index.toString()}
               />
             </SafeAreaView>
-            <ActionButton buttonColor="#55FF00" buttonTextStyle={{ color: '#444' }} onPress={() => navigation.navigate('Edit')}>
+            <ActionButton testID="add_button" buttonColor="#55FF00" buttonTextStyle={{ color: '#444' }} onPress={() => navigation.navigate('Edit')}>
             </ActionButton>
         </>
     );

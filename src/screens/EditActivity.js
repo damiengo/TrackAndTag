@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { TextInput, Button, Alert } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import Moment from 'moment'
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage'
 
 export default function EditActivityScreen({ navigation, route }) {
 
@@ -19,7 +19,7 @@ export default function EditActivityScreen({ navigation, route }) {
                              tags: '', 
                              title: '', 
                              description: '', 
-                             number: 0, 
+                             number: '', 
                              createdAt: (new Date()).getTime(), 
                              updatedAt: (new Date()).getTime() 
                          } 
@@ -40,13 +40,13 @@ export default function EditActivityScreen({ navigation, route }) {
     }
 
     const formatDate = (date) => {
-        Moment.locale('fr')
+        //Moment.locale(RNLocalize.findBestAvailableLanguage().languageTag)
         return Moment(new Date(date)).format('DD/MM/yyyy')
     }
 
     const onDateTimePickerChange = (event, value) => {
-        setDate(value || (new Date()).getTime())
         setShowDatePicker(false)
+        setDate(value || (new Date()).getTime())
     }
 
     const onPressSave = async (event) => {
@@ -99,18 +99,21 @@ export default function EditActivityScreen({ navigation, route }) {
             autoCapitalize='none'
             onChangeText={text => setTags(text)}
             defaultValue={tags}
+            testID="input_tags"
            />
            <TextInput
             style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
             placeholder='Title'
             onChangeText={text => setTitle(text)}
             defaultValue={title}
+            testID="input_title"
            />
            <TextInput
             style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
             placeholder='Description'
             onChangeText={text => setDescription(text)}
             defaultValue={description}
+            testID="input_description"
            />
            <TextInput
             style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
@@ -118,12 +121,14 @@ export default function EditActivityScreen({ navigation, route }) {
             keyboardType='numeric'
             onChangeText={text => setNumber(text)}
             defaultValue={String(number)}
+            testID="input_number"
            />
            <TextInput
             style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
             placeholder='Date'
             defaultValue={formatDate(date)}
             onFocus={() => setShowDatePicker(true)}
+            testID="input_date"
            />
            {showDatePicker && (
             <DateTimePicker
@@ -140,12 +145,14 @@ export default function EditActivityScreen({ navigation, route }) {
                 title="Save"
                 color="#841584"
                 accessibilityLabel="Save activity"
+                testID="button_save"
                 />
             {!isNew &&<Button
                 onPress={onPressDelete}
                 title="Delete"
                 color="#d35400"
                 accessibilityLabel="Delete activity"
+                testID="button_delete"
                 />}
         </>
     );

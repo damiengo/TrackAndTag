@@ -413,6 +413,7 @@ exports[`renders correctly 1`] = `
                                 "opacity": 1,
                               }
                             }
+                            testID="add_button"
                           >
                             <View
                               style={

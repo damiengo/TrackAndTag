@@ -14,6 +14,8 @@ configure({ adapter: new Adapter() });
 
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
 
+jest.mock('@react-navigation/native');
+
 it('add an item', () => {
   const navigation = {
     navigate: jest.fn()
