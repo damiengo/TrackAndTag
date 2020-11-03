@@ -23,6 +23,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ListItem from '../components/ListItem';
 import { useIsFocused } from "@react-navigation/native";
 
+import { Database } from '@nozbe/watermelondb';
+import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
+
+import schema from '../model/schema';
+
 export default function ActivitiesScreen({ navigation, route }) {
     const [activities, setActivities] = useState([]);
     const isFocused = useIsFocused();
@@ -30,6 +35,24 @@ export default function ActivitiesScreen({ navigation, route }) {
     useEffect(() => {
       getActivities()
     }, [isFocused]);
+
+    // First, create the adapter to the underlying database:
+    const adapter = new SQLiteAdapter({
+      schema,
+      dbName: 'track-and-tag', // optional database name or file system path
+      // migrations, // optional migrations
+      synchronous: true, // synchronous mode only works on iOS. improves performance and reduces glitches in most cases, but also has some downsides - test with and without it
+      // experimentalUseJSI: true, // experimental JSI mode, use only if you're brave
+    })
+
+    // Then, make a Watermelon database from it!
+    const database = new Database({
+      adapter,
+      modelClasses: [
+        // Post, // ⬅️ You'll add Models to Watermelon here
+      ],
+      actionsEnabled: true,
+    })
 
     const getActivities = () => {
       try {
