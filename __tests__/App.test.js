@@ -15,6 +15,8 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
+jest.mock('@nozbe/watermelondb');
+jest.mock('@nozbe/watermelondb/adapters/sqlite');
 
 it('renders correctly', async () => {
   let root; 
