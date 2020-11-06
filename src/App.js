@@ -14,8 +14,12 @@ import EditActivityScreen from './screens/EditActivity';
 
 import { Database } from '@nozbe/watermelondb';
 import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
+import DatabaseProvider from '@nozbe/watermelondb/DatabaseProvider'
 
 import schema from './model/schema';
+import Activity from './model/Activity';
+import Tag from './model/ActivityTag';
+import ActivityTag from './model/Tag';
 
 const Stack = createStackNavigator();
 
@@ -32,19 +36,23 @@ const adapter = new SQLiteAdapter({
 const database = new Database({
   adapter,
   modelClasses: [
-    // Post, // ⬅️ You'll add Models to Watermelon here
+    Activity,
+    Tag,
+    ActivityTag
   ],
   actionsEnabled: true,
 });
 
 const App: () => React$Node = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={ActivitiesScreen} options={{title: 'Activities'}} />
-        <Stack.Screen name="Edit" component={EditActivityScreen} options={{title: 'Edit activity'}} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <DatabaseProvider database={database}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={ActivitiesScreen} options={{title: 'Activities'}} />
+          <Stack.Screen name="Edit" component={EditActivityScreen} options={{title: 'Edit activity'}} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </DatabaseProvider>
   );
 };
 

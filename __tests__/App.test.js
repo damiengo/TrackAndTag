@@ -17,6 +17,7 @@ configure({ adapter: new Adapter() });
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
 jest.mock('@nozbe/watermelondb');
 jest.mock('@nozbe/watermelondb/adapters/sqlite');
+jest.mock('@nozbe/watermelondb/DatabaseProvider', () => () => <mock-database-prodiver />);
 
 it('renders correctly', async () => {
   let root; 

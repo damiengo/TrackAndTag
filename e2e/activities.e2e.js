@@ -18,18 +18,14 @@ describe('Activities', () => {
     await device.reloadReactNative();
   });
 
-  it('should have list activities screen', async () => {
+  it('should be visible on activities screen', async () => {
     await expect(element(by.text('Activities'))).toBeVisible();
   });
 
-  it('should show add activity screen after add button tap', async () => {
+  it('should be addable and editable', async () => {
     await element(by.id('add_button')).tap();
     await expect(element(by.text('New activity'))).toBeVisible();
     await expect(element(by.id('button_delete'))).not.toBeVisible();
-  });
-
-  it('should add an activity', async () => {
-    await element(by.id('add_button')).tap();
     // Fill fields
     await fillTextField('input_tags', 'tag1 tag2 tag3');
     await fillTextField('input_title', 'Title 1');
