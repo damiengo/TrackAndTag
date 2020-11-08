@@ -6,9 +6,11 @@ import {
 } from 'react-native';
 import Moment from 'moment';
 
-export default function ListItem({ navigation, item }) {
+import { Tag } from '../entities/Tag'
 
-    const genTags = (tags) => {
+export default function ListItem({ navigation, item }: any) {
+
+    const genTags = (tags: Tag) => {
         return Object.values(tags).map((tag) => {
             return '#'+tag
         }).join(' • ')
@@ -21,7 +23,6 @@ export default function ListItem({ navigation, item }) {
               flexDirection: 'row',
               flex: 1,
               marginTop: 5,
-              color: '#444444', 
               alignItems: 'center'
             }}
           >

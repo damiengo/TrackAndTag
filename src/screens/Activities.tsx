@@ -19,52 +19,28 @@ import {
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import EditActivityScreen from './EditActivity';
-import AsyncStorage from '@react-native-community/async-storage';
 import ListItem from '../components/ListItem';
 import { useIsFocused } from "@react-navigation/native";
 
-export default function ActivitiesScreen({ navigation, route }) {
+export default function ActivitiesScreen({ navigation, route }: any) {
     const [activities, setActivities] = useState([]);
-    const isFocused = useIsFocused();
 
-    useEffect(() => {
-      getActivities()
-    }, [isFocused]);
-
-    const getActivities = () => {
-
-      try {
-        //AsyncStorage.removeItem('@activities')
-        AsyncStorage.getItem('@activities').then(data => {
-          const json = JSON.parse(data) || []
-          var items = []
-          Object.keys(json).forEach(function(key) {
-            items.push(json[key])
-          })
-          items = items.reverse()
-          setActivities(items)
-        })
-      } catch(e) {
-        console.error(e);
-      }
-    }
-
-    const renderItem = (item) => {
+    const renderItem = (item: any) => {
       return <ListItem item={item} navigation={navigation} />
     }
 
     return (
         <>
-            <StatusBar barStyle="dark-content" />
-            <SafeAreaView>
-              <FlatList
-                data={activities}
-                renderItem={({item}) => renderItem(item)}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            </SafeAreaView>
-            <ActionButton testID="add_button" buttonColor="#55FF00" buttonTextStyle={{ color: '#444' }} onPress={() => navigation.navigate('Edit')}>
-            </ActionButton>
+          <StatusBar barStyle="dark-content" />
+          <SafeAreaView>
+            <FlatList
+              data={activities}
+              renderItem={({item}) => renderItem(item)}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </SafeAreaView>
+          <ActionButton testID="add_button" buttonColor="#55FF00" buttonTextStyle={{ color: '#444' }} onPress={() => navigation.navigate('Edit')}>
+          </ActionButton>
         </>
     );
 }

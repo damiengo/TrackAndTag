@@ -2,28 +2,30 @@ import React, { useState, useEffect } from 'react'
 import { TextInput, Button, Alert } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import Moment from 'moment'
-import AsyncStorage from '@react-native-community/async-storage'
+import { RouteProp } from '@react-navigation/native'
 
-export default function EditActivityScreen({ navigation, route }) {
+import { Tag } from '../entities/Tag'
 
-    const genTags = (tags) => {
+export default function EditActivityScreen({ navigation, route }: any) {
+
+    const genTags = (tags: Tag) => {
         return Object.values(tags).map((tag) => {
             return tag
         }).join(' ')
     }
 
     const { item } = route.params ?? 
-                     { 
-                         item: { 
-                             date: (new Date()).getTime(), 
-                             tags: '', 
-                             title: '', 
-                             description: '', 
-                             number: '', 
-                             createdAt: (new Date()).getTime(), 
-                             updatedAt: (new Date()).getTime() 
-                         } 
-                     }
+                { 
+                    item: { 
+                        date: (new Date()).getTime(), 
+                        tags: '', 
+                        title: '', 
+                        description: '', 
+                        number: '', 
+                        createdAt: (new Date()).getTime(), 
+                        updatedAt: (new Date()).getTime() 
+                    } 
+                }
 
     const [date, setDate]                     = useState(item.date);
     const [tags, setTags]                     = useState(genTags(item.tags));
@@ -39,17 +41,17 @@ export default function EditActivityScreen({ navigation, route }) {
         navigation.setOptions({ title: 'New activity' })
     }
 
-    const formatDate = (date) => {
+    const formatDate = (date: number) => {
         //Moment.locale(RNLocalize.findBestAvailableLanguage().languageTag)
         return Moment(new Date(date)).format('DD/MM/yyyy')
     }
 
-    const onDateTimePickerChange = (event, value) => {
+    const onDateTimePickerChange = (event: React.FormEvent<EventTarget>, value: any) => {
         setShowDatePicker(false)
         setDate(value || (new Date()).getTime())
     }
 
-    const onPressSave = async (event) => {
+    const onPressSave = async (event: React.FormEvent<EventTarget>) => {
         try {
             const activity = {
                 tags: tags.split(' '), 
@@ -60,20 +62,20 @@ export default function EditActivityScreen({ navigation, route }) {
                 createdAt: createdAt, 
                 updatedAt: updatedAt
             }
-            await AsyncStorage.getItem('@activities')
+            /* await AsyncStorage.getItem('@activities')
             .then(async (activities) => {
                 var a = activities ? JSON.parse(activities) : {}
                 const key = activity.createdAt
                 a[key] = activity
                 await AsyncStorage.setItem('@activities', JSON.stringify(a))
                 navigation.goBack()
-            })
+            }) */
         } catch (e) {
             console.error(e);
         }
     }
 
-    const onPressDelete = async (event) => {
+    const onPressDelete = async (event: React.FormEvent<EventTarget>) => {
         Alert.alert(
             "Delete activity",
             "Do you really want to delete "+title+" ?",

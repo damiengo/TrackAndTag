@@ -7,7 +7,6 @@ import ListItem from '../../src/components/ListItem'
 
 import { create, act } from 'react-test-renderer';
 import { configure, shallow } from 'enzyme';
-import AsyncStorage from '@react-native-community/async-storage';
 import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
@@ -35,16 +34,16 @@ it('list existing items', async () => {
         createdAt: (new Date()).getTime(), 
         updatedAt: (new Date()).getTime()
     }
-    var a = {}
-    const key = activity.createdAt
-    a[key] = activity
-    await AsyncStorage.setItem('@activities', JSON.stringify(a))
+    //var a = {}
+    //const key: number = activity.createdAt
+    //a[key.toString()] = activity
+    //await AsyncStorage.setItem('@activities', JSON.stringify(a))
 
     let component; 
     await act(async() => {
-      component = create(<ActivitiesScreen />)
+      component = create(<ActivitiesScreen />);
+      let listItem = component.root.findByType(ListItem);
+      expect(listItem.props.item).toEqual(activity);
     });
 
-    let listItem = component.root.findByType(ListItem)
-    expect(listItem.props.item).toEqual(activity)
 })

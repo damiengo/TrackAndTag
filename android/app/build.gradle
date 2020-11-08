@@ -1,5 +1,4 @@
 apply plugin: "com.android.application"
-apply plugin: 'kotlin-android'
 
 import com.android.build.OutputFile
 
@@ -220,7 +219,6 @@ dependencies {
     implementation "androidx.annotation:annotation:1.1.0"
 
     implementation project(':react-native-localize')
-    implementation project(':watermelondb')
 }
 
 // Run this once to be able to run the application with BUCK

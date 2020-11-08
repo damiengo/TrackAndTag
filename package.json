@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "build": "tsc",
     "android": "react-native run-android --verbose",
     "ios": "react-native run-ios",
     "start": "react-native start --verbose",
@@ -11,18 +12,20 @@
     "lint": "eslint .",
     "e2e:all": "detox build -c android.emu.release && detox test -c android.emu.release --cleanup",
     "e2e:build": "detox build -c android.emu.release",
-    "e2e:test": "detox test -c android.emu.release",
+    "e2e:test": "detox test -r -c android.emu.release",
     "wm:start": "echo 524288 | sudo tee -a /proc/sys/fs/inotify/max_user_watches"
   },
   "dependencies": {
-    "@nozbe/watermelondb": "^0.20.0",
-    "@nozbe/with-observables": "^1.0.7",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/datetimepicker": "^2.6.2",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/toolbar-android": "0.1.0-rc.2",
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "^5.9.3",
+    "@types/enzyme": "^3.10.8",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/react-native-vector-icons": "^6.4.6",
+    "babel-plugin-transform-typescript-metadata": "^0.3.1",
     "moment": "^2.29.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
@@ -34,15 +37,24 @@
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.11.0",
-    "react-native-vector-icons": "^6.7.0"
+    "react-native-sqlite-storage": "^5.0.0",
+    "react-native-vector-icons": "^6.7.0",
+    "typeorm": "^0.2.29"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/plugin-proposal-decorators": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
+    "@babel/preset-typescript": "^7.12.1",
     "@babel/runtime": "^7.12.1",
     "@react-native-community/eslint-config": "^0.0.5",
     "@testing-library/jest-native": "^3.4.3",
     "@testing-library/react": "^11.1.0",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.6",
+    "@types/react": "^16.9.56",
+    "@types/react-native": "^0.63.33",
+    "@types/react-test-renderer": "^16.9.3",
     "babel-jest": "^24.9.0",
     "detox": "^17.10.6",
     "enzyme": "^3.11.0",
@@ -52,12 +64,21 @@
     "jest": "^24.9.0",
     "jest-circus": "^26.6.1",
     "metro-react-native-babel-preset": "^0.58.0",
-    "react-test-renderer": "16.11.0"
+    "react-test-renderer": "16.11.0",
+    "typescript": "^4.0.5"
   },
   "jest": {
     "preset": "react-native",
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
     ],
     "moduleNameMapper": {
       ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
