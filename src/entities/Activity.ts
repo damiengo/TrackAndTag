@@ -13,11 +13,11 @@ export class Activity {
 
   @PrimaryGeneratedColumn() id: number;
   @Column('text') title: string;
-  @Column('text') description: string;
-  @Column() number: number;
+  @Column('text', { nullable: true }) description: string | null;
+  @Column() quantity: number;
   @Column() madeAt: number;
   @Column() createdAt: number;
-  @Column() updatedAt: number;
+  @Column({ nullable: true }) updatedAt: number | null;
 
   @ManyToMany(() => Tag, (tag) => tag.activities)
   @JoinTable()

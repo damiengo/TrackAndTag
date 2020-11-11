@@ -62,14 +62,7 @@ export default function EditActivityScreen({ navigation, route }: any) {
                 createdAt: createdAt, 
                 updatedAt: updatedAt
             }
-            /* await AsyncStorage.getItem('@activities')
-            .then(async (activities) => {
-                var a = activities ? JSON.parse(activities) : {}
-                const key = activity.createdAt
-                a[key] = activity
-                await AsyncStorage.setItem('@activities', JSON.stringify(a))
-                navigation.goBack()
-            }) */
+            navigation.goBack()
         } catch (e) {
             console.error(e);
         }

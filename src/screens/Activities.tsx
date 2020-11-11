@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -18,15 +18,28 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useIsFocused } from "@react-navigation/native";
+import { Activity } from '../entities/Activity';
 import EditActivityScreen from './EditActivity';
 import ListItem from '../components/ListItem';
-import { useIsFocused } from "@react-navigation/native";
+import { getActivities } from '../db/Database';
 
 export default function ActivitiesScreen({ navigation, route }: any) {
-    const [activities, setActivities] = useState([]);
+    const [activities, setActivities] = useState<Activity[]>([]);
 
-    const renderItem = (item: any) => {
+    const renderItem = (item: Activity) => {
       return <ListItem item={item} navigation={navigation} />
+    }
+
+    useEffect(() => {
+      init()
+    }, []);
+
+    const init = async() => {
+        const loadedAct = await getActivities()
+        if(loadedAct) {
+          setActivities(loadedAct)
+        }
     }
 
     return (

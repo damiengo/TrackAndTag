@@ -15,6 +15,7 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
+jest.mock('react-native-sqlite-storage')
 
 it('renders correctly', async () => {
   let root;

@@ -13,8 +13,8 @@ export class Tag {
 
   @PrimaryGeneratedColumn() id: number;
   @Column('text') label: string;
-  @Column('text') description: string;
-  @Column() unit: number;
+  @Column('text', { nullable: true }) description: string | null;
+  @Column({ nullable: true }) unit: number | undefined;
   @Column() createdAt: number;
   @Column() updatedAt: number;
 
