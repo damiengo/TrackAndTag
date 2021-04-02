@@ -5,4 +5,4 @@ node_js:
   - '12.18'
 script:
   - npm run build
-  - npm run test:travis
+  - npm run test

@@ -27,7 +27,7 @@ it('add an item', () => {
     activity.description = 'A short description'
     activity.quantity = 18
     activity.madeAt = (new Date()).getTime()
-    activity.tags = [tag1, tag2]
+    activity.addTags([tag1, tag2])
 
     const wrapper = shallow(<ListItem navigation={navigation} activity={activity} />)
     

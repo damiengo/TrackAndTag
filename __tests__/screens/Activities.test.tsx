@@ -55,7 +55,7 @@ it('list existing items', async () => {
       const flastListRndrItm = flastListProps.renderItem(lrii)
       if(flastListRndrItm) {
         expect(flastListRndrItm.type).toBe(ListItem)
-        expect(flastListRndrItm.props.item).toBe(activity)
+        expect(flastListRndrItm.props.activity).toBe(activity)
       }
       if(flastListProps.keyExtractor) {
         const flastListKeyExtr = flastListProps.keyExtractor(activity, 8)

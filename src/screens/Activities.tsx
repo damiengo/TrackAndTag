@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -22,24 +22,25 @@ import { useIsFocused } from "@react-navigation/native";
 import { Activity } from '../entities/Activity';
 import EditActivityScreen from './EditActivity';
 import ListItem from '../components/ListItem';
-import { getActivities } from '../db/Database';
+import { api } from '../services/api/LocalApi';
+import database from '../services/api/Database'
 
 export default function ActivitiesScreen({ navigation, route }: any) {
-    const [activities, setActivities] = useState<Activity[]>([]);
+    const [activities, setActivities] = useState<Activity[]>([])
 
-    const renderItem = (item: Activity) => {
-      return <ListItem item={item} navigation={navigation} />
-    }
+    const isFocused = useIsFocused();
+    useEffect(() => { init() }, [isFocused])
 
-    useEffect(() => {
-      init()
-    }, []);
-
-    const init = async() => {
-        const loadedAct = await getActivities()
+    const init = async () => {
+        await database.setupConnection()
+        const loadedAct = await api.getActivitiesAndTagsLabel(' ')
         if(loadedAct) {
           setActivities(loadedAct)
         }
+    }
+
+    const renderItem = (activity: Activity) => {
+      return <ListItem activity={activity} navigation={navigation} />
     }
 
     return (
@@ -48,6 +49,7 @@ export default function ActivitiesScreen({ navigation, route }: any) {
           <SafeAreaView>
             <FlatList
               data={activities}
+              extraData={activities}
               renderItem={({item}) => renderItem(item)}
               keyExtractor={(item, index) => index.toString()}
             />

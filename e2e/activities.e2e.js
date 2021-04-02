@@ -36,7 +36,7 @@ describe('Activities', () => {
     // Activities screen with new activity visible
     await expect(element(by.text('Activities'))).toBeVisible();
     await expect(element(by.text('Title 1'))).toBeVisible();
-    await expect(element(by.text('#tag1 • #tag2 • #tag3'))).toBeVisible();
+    await expect(element(by.text('tag1 tag2 tag3'))).toBeVisible();
     const elem1 = await element(by.text('Title 1'));
     await elem1.tap();
     // Activity editable
@@ -46,7 +46,7 @@ describe('Activities', () => {
     await element(by.id('button_save')).tap();
     await expect(element(by.text('Activities'))).toBeVisible();
     await expect(element(by.text('Title 1.1'))).toBeVisible();
-    await expect(element(by.text('#tag1 • #tag8 • #tag3'))).toBeVisible();
+    await expect(element(by.text('tag1 tag8 tag3'))).toBeVisible();
     // Activity deletable
     const elem11 = await element(by.text('Title 1.1'));
     await elem11.tap();

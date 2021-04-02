@@ -4,41 +4,22 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import Moment from 'moment'
 import { RouteProp } from '@react-navigation/native'
 
+import { Activity } from '../entities/Activity'
 import { Tag } from '../entities/Tag'
+import { ActivityTag } from '../entities/ActivityTag'
+import { api } from '../services/api/LocalApi'
 
 export default function EditActivityScreen({ navigation, route }: any) {
 
-    const genTags = (tags: Tag) => {
-        return Object.values(tags).map((tag) => {
-            return tag
-        }).join(' ')
-    }
-
-    const { item } = route.params ?? 
-                { 
-                    item: { 
-                        date: (new Date()).getTime(), 
-                        tags: '', 
-                        title: '', 
-                        description: '', 
-                        number: '', 
-                        createdAt: (new Date()).getTime(), 
-                        updatedAt: (new Date()).getTime() 
-                    } 
-                }
-
-    const [date, setDate]                     = useState(item.date);
-    const [tags, setTags]                     = useState(genTags(item.tags));
-    const [title, setTitle]                   = useState(item.title);
-    const [description, setDescription]       = useState(item.description);
-    const [number, setNumber]                 = useState(item.number);
-    const [createdAt, setCreatedAt]           = useState(item.createdAt);
-    const [updatedAt, setUpdatedAt]           = useState(item.updatedAt);
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [isNew, setIsNew]                   = useState((route.params)? false : true);
-
-    if( isNew ) {
-        navigation.setOptions({ title: 'New activity' })
+    const genActivity = () => {
+        const activity = new Activity()
+        activity.title = ''
+        activity.description = ''
+        activity.quantity = 0
+        activity.madeAt = Date.now()
+        activity.createdAt = Date.now()
+        activity.activityTags = []
+        return activity
     }
 
     const formatDate = (date: number) => {
@@ -46,26 +27,54 @@ export default function EditActivityScreen({ navigation, route }: any) {
         return Moment(new Date(date)).format('DD/MM/yyyy')
     }
 
+    let item: Activity = genActivity()
+    if(route.params) {
+        item = {...item, ...route.params.item}
+    }
+
+    const [id, setId]                         = useState(item.id);
+    const [madeAt, setMadeAt]                 = useState(item.madeAt);
+    const [tags, setTags]                     = useState(item.tagsLabels);
+    const [title, setTitle]                   = useState(item.title);
+    const [description, setDescription]       = useState(item.description);
+    const [quantity, setQuantity]             = useState(item.quantity);
+    const [createdAt, setCreatedAt]           = useState(item.createdAt);
+    const [updatedAt, setUpdatedAt]           = useState(item.updatedAt);
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [isNew, setIsNew]                   = useState((item.id)? false : true);
+
+    if( isNew ) {
+        navigation.setOptions({ title: 'New activity' })
+    }
+
     const onDateTimePickerChange = (event: React.FormEvent<EventTarget>, value: any) => {
         setShowDatePicker(false)
-        setDate(value || (new Date()).getTime())
+        setMadeAt(value.getTime() || Date.now())
+    }
+
+    const genTagsArray = (activity: Activity): ActivityTag[] => {
+        return tags.split(' ').map((tag: string) => {
+            const eTag = new Tag()
+            eTag.label = tag
+            const eActivityTag = new ActivityTag()
+            eActivityTag.activity = activity
+            eActivityTag.tag = eTag
+            return eActivityTag
+        })
     }
 
     const onPressSave = async (event: React.FormEvent<EventTarget>) => {
-        try {
-            const activity = {
-                tags: tags.split(' '), 
-                title: title, 
-                description: description, 
-                number: number, 
-                date: date, 
-                createdAt: createdAt, 
-                updatedAt: updatedAt
-            }
-            navigation.goBack()
-        } catch (e) {
-            console.error(e);
-        }
+        const activity = new Activity()
+        activity.id = id
+        activity.title = title
+        activity.description = description
+        activity.quantity = quantity
+        activity.madeAt = madeAt
+        activity.activityTags = genTagsArray(activity)
+        activity.createdAt = createdAt
+        activity.updatedAt = updatedAt
+        await api.addActivity(activity)
+        navigation.goBack()
     }
 
     const onPressDelete = async (event: React.FormEvent<EventTarget>) => {
@@ -84,6 +93,13 @@ export default function EditActivityScreen({ navigation, route }: any) {
             ],
             { cancelable: false }
         )
+    }
+
+    const formatQuantity = (value: string) : number => {
+        if(value == '') {
+            return 0
+        }
+        return parseInt(value)
     }
 
     return (
@@ -114,21 +130,21 @@ export default function EditActivityScreen({ navigation, route }: any) {
             style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
             placeholder='Number'
             keyboardType='numeric'
-            onChangeText={text => setNumber(text)}
-            defaultValue={String(number)}
+            onChangeText={text => setQuantity(formatQuantity(text))}
+            defaultValue={String(quantity)}
             testID="input_number"
            />
            <TextInput
             style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
             placeholder='Date'
-            defaultValue={formatDate(date)}
+            defaultValue={formatDate(madeAt)}
             onFocus={() => setShowDatePicker(true)}
             testID="input_date"
            />
            {showDatePicker && (
             <DateTimePicker
                 testID="dateTimePicker"
-                value={date}
+                value={new Date(madeAt)}
                 mode="date"
                 is24Hour={true}
                 display="default"
