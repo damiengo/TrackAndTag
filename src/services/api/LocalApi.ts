@@ -56,6 +56,10 @@ class LocalApi implements Api {
         return await this.activityRepo.getActivitiesAndTagsLabel(tagsSeparator)
     }
 
+    getBestTags = async (anteriority: string) : Promise<any[]> => {
+        return await this.tagRepo.getBest(anteriority)
+    }
+
 }
 
 export const api = new LocalApi()

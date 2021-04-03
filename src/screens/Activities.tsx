@@ -21,12 +21,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useIsFocused } from "@react-navigation/native";
 import { Activity } from '../entities/Activity';
 import EditActivityScreen from './EditActivity';
+import BestTags from '../components/BestTags';
 import ListItem from '../components/ListItem';
 import { api } from '../services/api/LocalApi';
 import database from '../services/api/Database'
 
 export default function ActivitiesScreen({ navigation, route }: any) {
     const [activities, setActivities] = useState<Activity[]>([])
+    const [tags, setTags]             = useState<any[]>([])
 
     const isFocused = useIsFocused();
     useEffect(() => { init() }, [isFocused])
@@ -37,6 +39,10 @@ export default function ActivitiesScreen({ navigation, route }: any) {
         if(loadedAct) {
           setActivities(loadedAct)
         }
+        const loadedTags = await api.getBestTags('-7 days')
+        if(loadedTags) {
+          setTags(loadedTags.slice(0, 6))
+        }
     }
 
     const renderItem = (activity: Activity) => {
@@ -46,6 +52,8 @@ export default function ActivitiesScreen({ navigation, route }: any) {
     return (
         <>
           <StatusBar barStyle="dark-content" />
+          <BestTags tags={tags} />
+          <Text>Recently</Text>
           <SafeAreaView>
             <FlatList
               data={activities}

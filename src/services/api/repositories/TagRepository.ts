@@ -30,14 +30,24 @@ export default class TagRepository {
         `, [ labels.map(l => "'"+l+"'").join(',') ])
     }
 
-    getBest = async() : Promise<Tag[]> => {
-        `select t.text, count(t.tagId) as r_count, sum(a.number) as r_sum
-from activity a
-inner join ActivityTag ata on a.activityId = ata.activityId
-inner join tag t on ata.tagId = t.tagId
-where datetime(a.madeAt/1000, 'unixepoch') > date('now','-2 months')
-group by t.tagId
-order by r_sum desc`
+    getBest = async(anteriority: string) : Promise<any[]> => {
+        return await database.query(`
+            select 
+                t.label as label, 
+                count(t.id) as t_count, 
+                sum(a.quantity) as t_sum
+            from 
+                activity a
+            inner join 
+                activity_tag ata on a.id = ata.activityId
+            inner join 
+                tag t on ata.tagId = t.id
+            where 
+                datetime(a.madeAt/1000, 'unixepoch') > date('now', '${anteriority}')
+            group 
+                by t.id
+            order by 
+                t_sum desc`)
     }
 
 }
