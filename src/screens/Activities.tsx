@@ -52,7 +52,7 @@ export default function ActivitiesScreen({ navigation, route }: any) {
     return (
         <>
           <StatusBar barStyle="dark-content" />
-          <BestTags tags={tags} />
+          <BestTags navigation={navigation} tags={tags} />
           <Text>Recently</Text>
           <SafeAreaView>
             <FlatList

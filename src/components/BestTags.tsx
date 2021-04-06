@@ -7,6 +7,11 @@ import {
 
 export default function BestTags({ navigation, tags }: any) {
 
+    const onTagPress = (event, tag) => {
+      console.log(tag);
+      navigation.navigate('TagStat', {item: tag})
+    }
+
     const renderItem = (item: any) => {
       return (
         <View
@@ -17,7 +22,7 @@ export default function BestTags({ navigation, tags }: any) {
               alignItems: 'flex-start'
             }}
         >
-            <Text style={{marginRight: 5, marginTop: 2, backgroundColor: '#55FF00'}}>#{item.label}</Text>
+            <Text onPress={(e) => onTagPress(e, item.label)} style={{marginRight: 5, marginTop: 2, backgroundColor: '#55FF00'}}>#{item.label}</Text>
             <Text>{item.t_sum}</Text>
         </View>
       )
