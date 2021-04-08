@@ -60,6 +60,10 @@ class LocalApi implements Api {
         return await this.tagRepo.getBest(anteriority)
     }
 
+    getTagSumByDay = async (tagLabel: string) : Promise<any[]> => {
+        return await this.tagRepo.getSumByDay(tagLabel)
+    }
+
 }
 
 export const api = new LocalApi()

@@ -50,4 +50,23 @@ export default class TagRepository {
                 t_sum desc`)
     }
 
+    getSumByDay = async(tagLabel: string) : Promise<any[]> => {
+        return await database.query(`
+            select 
+                strftime('%Y-%m-%d', datetime(a.madeAt/1000, 'unixepoch')) as 'date', 
+                sum(a.quantity) as 'count'
+            from 
+                tag t 
+            inner join 
+                activity_tag ata on t.id = ata.tagId
+            inner join 
+                activity a on ata.activityId = a.id
+            where 
+                t.label = '${tagLabel}'
+            group by 
+                strftime('%Y-%m-%d', datetime(a.madeAt/1000, 'unixepoch'))
+            order by 
+                a.madeAt asc`)
+    }
+
 }

@@ -8,7 +8,6 @@ import {
 export default function BestTags({ navigation, tags }: any) {
 
     const onTagPress = (event, tag) => {
-      console.log(tag);
       navigation.navigate('TagStat', {item: tag})
     }
 

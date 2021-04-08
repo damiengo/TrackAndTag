@@ -18,7 +18,6 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useIsFocused } from "@react-navigation/native";
 import { Activity } from '../entities/Activity';
 import EditActivityScreen from './EditActivity';
 import BestTags from '../components/BestTags';
@@ -30,8 +29,9 @@ export default function ActivitiesScreen({ navigation, route }: any) {
     const [activities, setActivities] = useState<Activity[]>([])
     const [tags, setTags]             = useState<any[]>([])
 
-    const isFocused = useIsFocused();
-    useEffect(() => { init() }, [isFocused])
+    useEffect(() => { 
+      init() 
+    }, [])
 
     const init = async () => {
         await database.setupConnection()
