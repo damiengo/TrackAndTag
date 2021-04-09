@@ -6,31 +6,28 @@ import {
 } from 'react-native';
 
 import {
-  ContributionGraph
+  ContributionGraph, 
+  BarChart
 } from "react-native-chart-kit";
 
 import { api } from '../services/api/LocalApi';
 import database from '../services/api/Database'
 
 export default function TagStatScreen({ navigation, route }: any) {
-    const [data, setData] = useState<any[]>([])
-
-    const commitsData = [
-      { date: "2017-01-02", count: 1 },
-      { date: "2017-01-03", count: 2 },
-      { date: "2017-01-04", count: 3 },
-      { date: "2017-01-05", count: 4 },
-      { date: "2017-01-06", count: 5 },
-      { date: "2017-01-30", count: 2 },
-      { date: "2017-01-31", count: 3 },
-      { date: "2017-03-01", count: 2 },
-      { date: "2017-04-02", count: 4 },
-      { date: "2017-03-05", count: 2 },
-      { date: "2017-02-30", count: 4 }
-    ];
+    const [sumByDay, setSumByDay] = useState<any[]>([])
+    const [weekData, setWeekData] = useState<any[]>([])
 
     let item: String = route?.params?.item
     navigation.setOptions({ title: '#'+item })
+
+    const weekChartData = {
+      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      datasets: [
+        {
+          data: weekData
+        }
+      ]
+    };
 
     useEffect(() => { 
       init() 
@@ -40,7 +37,11 @@ export default function TagStatScreen({ navigation, route }: any) {
         await database.setupConnection()
         const tagSumByDay = await api.getTagSumByDay(item)
         if(tagSumByDay) {
-          setData(tagSumByDay)
+          setSumByDay(tagSumByDay)
+        }
+        const tagWeekStat = await api.getTagWeekStats(item, '0 days')
+        if(tagWeekStat) {
+          setWeekData(tagWeekStat)
         }
     }
 
@@ -50,21 +51,29 @@ export default function TagStatScreen({ navigation, route }: any) {
       backgroundGradientFromOpacity: 0,
       backgroundGradientTo: "#FFFFFF",
       backgroundGradientToOpacity: 1,
-      color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-      strokeWidth: 2, // optional, default 3
-      barPercentage: 0.5,
+      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
+      strokeWidth: 3, // optional, default 3
+      barPercentage: 0.8,
       useShadowColorFromDataset: false // optional
     };
 
     return (
         <>
-            <Text>Tag detail</Text>
             <ContributionGraph
-              values={data}
+              values={sumByDay}
               endDate={new Date()}
               numDays={100}
               width={screenWidth}
               height={220}
+              chartConfig={chartConfig}
+            />
+
+            <BarChart
+              data={weekChartData}
+              width={screenWidth}
+              height={220}
+              withHorizontalLabels={false}
+              showValuesOnTopOfBars={true}
               chartConfig={chartConfig}
             />
         </>

@@ -64,6 +64,16 @@ class LocalApi implements Api {
         return await this.tagRepo.getSumByDay(tagLabel)
     }
 
+    getTagWeekStats = async (tagLabel: string, anteriority: string) => {
+        const weekActivities = await this.tagRepo.getWeekStat(tagLabel, anteriority)
+        console.log(weekActivities)
+        return weekActivities.reduce((res, item) => {
+            res[item['day']] = item['sum']
+
+            return res
+        }, [0, 0, 0, 0, 0, 0, 0])
+    }
+
 }
 
 export const api = new LocalApi()

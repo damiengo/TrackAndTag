@@ -64,9 +64,31 @@ export default class TagRepository {
             where 
                 t.label = '${tagLabel}'
             group by 
-                strftime('%Y-%m-%d', datetime(a.madeAt/1000, 'unixepoch'))
+                date
             order by 
                 a.madeAt asc`)
+    }
+
+    getWeekStat = async(tagLabel: string, anteriority: string) : Promise<any[]> => {
+        return await database.query(`
+            select 
+                strftime('%w', datetime(a.madeAt/1000, 'unixepoch'))-1%7 as 'day', 
+                sum(a.quantity) as 'sum', 
+                count(a.quantity) as 'count'
+            from 
+                tag t 
+            inner join 
+                activity_tag ata on t.id = ata.tagId
+            inner join 
+                activity a on ata.activityId = a.id
+            where 
+                t.label = '${tagLabel}'
+			and
+			    datetime(a.madeAt/1000, 'unixepoch') >= date('now', '-7 days', 'weekday 1')
+            group by 
+                day
+            order by 
+                day asc`)
     }
 
 }
