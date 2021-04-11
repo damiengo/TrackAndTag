@@ -14,8 +14,10 @@ import { api } from '../services/api/LocalApi';
 import database from '../services/api/Database'
 
 export default function TagStatScreen({ navigation, route }: any) {
-    const [sumByDay, setSumByDay] = useState<any[]>([])
-    const [weekData, setWeekData] = useState<any[]>([])
+    const [sumByDay,  setSumByDay]  = useState<any[]>([])
+    const [weekData,  setWeekData]  = useState<any[]>([])
+    const [weekSum,   setWeekSum]   = useState<any[]>([])
+    const [weekCount, setWeekCount] = useState<any[]>([])
 
     let item: String = route?.params?.item
     navigation.setOptions({ title: '#'+item })
@@ -41,7 +43,9 @@ export default function TagStatScreen({ navigation, route }: any) {
         }
         const tagWeekStat = await api.getTagWeekStats(item, '0 days')
         if(tagWeekStat) {
-          setWeekData(tagWeekStat)
+          setWeekData(tagWeekStat.data)
+          setWeekSum(tagWeekStat.sum)
+          setWeekCount(tagWeekStat.count)
         }
     }
 
@@ -68,6 +72,8 @@ export default function TagStatScreen({ navigation, route }: any) {
               chartConfig={chartConfig}
             />
 
+            <Text>Number {weekCount}</Text>
+            <Text>Total {weekSum}</Text>
             <BarChart
               data={weekChartData}
               width={screenWidth}

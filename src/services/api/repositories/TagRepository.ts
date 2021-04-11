@@ -72,7 +72,7 @@ export default class TagRepository {
     getWeekStat = async(tagLabel: string, anteriority: string) : Promise<any[]> => {
         return await database.query(`
             select 
-                strftime('%w', datetime(a.madeAt/1000, 'unixepoch'))-1%7 as 'day', 
+                ((strftime('%w', datetime(a.madeAt/1000, 'unixepoch'))+6)%7) as 'day', 
                 sum(a.quantity) as 'sum', 
                 count(a.quantity) as 'count'
             from 
