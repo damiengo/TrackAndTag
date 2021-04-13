@@ -66,17 +66,25 @@ class LocalApi implements Api {
 
     getTagWeekStats = async (tagLabel: string, anteriority: string) : Promise<any[]> => {
         const result = {};
-        const weekActivities = await this.tagRepo.getWeekStat(tagLabel, anteriority)
+        result.data = [0, 0, 0, 0, 0, 0, 0]
+        result.sum = 0
+        result.count = 0
 
-        result.data = weekActivities.reduce((res, item) => {
-            res[item['day']] = item['sum']
+        const tagStat = await this.tagRepo.getStat(tagLabel)
 
-            return res
-        }, [0, 0, 0, 0, 0, 0, 0])
+        const now = new Date()
+        const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()+1));
+        const monday = new Date(firstDayOfWeek.toISOString().substring(0,10))
 
-        result.sum = weekActivities.reduce((res, item) => res + item['sum'], 0)
-
-        result.count = weekActivities.filter(item => item['sum'] > 0).length
+        tagStat.map(item => {
+            const itemDate = new Date(item.date)
+            if(itemDate >= monday) {
+                const day = (itemDate.getDay()+6)%7
+                result.data[day] = item.sum
+                result.sum += item.sum
+                result.count += (item.sum > 0)? 1 : 0
+            }
+        })
 
         return result
     }
