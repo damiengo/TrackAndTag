@@ -28,7 +28,7 @@
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/react-native-vector-icons": "^6.4.6",
     "babel-plugin-transform-typescript-metadata": "^0.3.1",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-native": "0.62.2",
